@@ -6,7 +6,7 @@
 /*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:39:20 by jmuni-re          #+#    #+#             */
-/*   Updated: 2023/02/24 10:42:46 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/02/25 13:03:51 by jmuni-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	exit_statut(t_var **shell, int i)
 		ft_lstadd_back(&(*shell)->string, number);
 	}
 	i++;
-	return(i);
+	return (i);
 }
 
 int	get_variable(char *cmd, int i, char **tmp_env, t_var **shell)

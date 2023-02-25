@@ -6,7 +6,7 @@
 /*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:04:07 by jmuni-re          #+#    #+#             */
-/*   Updated: 2023/02/24 10:51:15 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/02/25 13:01:20 by jmuni-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,21 @@ int	read_cmd_user(t_var **shell, char **tmp_env, char *cmd)
 	tmp = ft_varnew();
 	i = 0;
 	if (is_double_quote(cmd) % 2 != 0 && is_simple_quote(cmd) % 2 != 0)
-	{
-		printf("Error: missing quote\n");
 		return (1);
-	}
-		while (cmd && cmd[i])
+	while (cmd && cmd[i])
+	{
+		start = i;
+		i = check_cmd_user(tmp, tmp_env, cmd, i);
+		if (i == start)
 		{
-			start = i;
-			i = check_cmd_user(tmp, tmp_env, cmd, i);
-			if (i == start)
-			{
-				if (cmd[i] == '|')
-					i = new_shell(&tmp, shell, i);	
-				else
-					i = get_string(&tmp, i, cmd, tmp_env);
-			}
-			if (cmd[i] == ' ' && tmp->string && tmp->string->content)
-				get_space(&tmp);
+			if (cmd[i] == '|')
+				i = new_shell(&tmp, shell, i);
+			else
+				i = get_string(&tmp, i, cmd, tmp_env);
 		}
-		ft_varadd_back(shell, tmp);
+		if (cmd[i] == ' ' && tmp->string && tmp->string->content)
+			get_space(&tmp);
+	}
+	ft_varadd_back(shell, tmp);
 	return (0);
 }
