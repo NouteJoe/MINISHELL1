@@ -6,7 +6,7 @@
 /*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:04:07 by jmuni-re          #+#    #+#             */
-/*   Updated: 2023/02/25 13:01:20 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/02/26 11:21:47 by jmuni-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	read_cmd_user(t_var **shell, char **tmp_env, char *cmd)
 
 	tmp = ft_varnew();
 	i = 0;
-	if (is_double_quote(cmd) % 2 != 0 && is_simple_quote(cmd) % 2 != 0)
+	if (is_double_quote(cmd) % 2 != 0 || is_simple_quote(cmd) % 2 != 0)
 		return (1);
 	while (cmd && cmd[i])
 	{
