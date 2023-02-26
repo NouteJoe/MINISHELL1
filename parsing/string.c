@@ -6,7 +6,7 @@
 /*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 13:10:24 by jmuni-re          #+#    #+#             */
-/*   Updated: 2023/02/25 12:57:39 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/02/26 10:38:18 by jmuni-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,17 @@ int	get_string_simple(t_var **shell, int i, char *cmd)
 	return (i);
 }
 
+void	add_back_list(t_var **shell, char *cmd, int i, int start)
+{
+	t_list	*tmp;
+
+	tmp = ft_lstnew(ft_substr(cmd, start, i - start));
+	ft_lstadd_back(&(*shell)->string, tmp);
+}
+
 int	get_string(t_var **shell, int i, char *cmd, char **tmp_env)
 {
 	int		start;
-	t_list	*tmp;
 
 	start = i;
 	while (cmd[i] && cmd[i] != '<' && cmd[i] != '>' && cmd[i] != '\''
@@ -65,22 +72,19 @@ int	get_string(t_var **shell, int i, char *cmd, char **tmp_env)
 	{
 		if (cmd[i] == ' ' && cmd[i + 1] == ' ')
 		{
-			tmp = ft_lstnew(ft_substr(cmd, start, i - start));
-			ft_lstadd_back(&(*shell)->string, tmp);
+			add_back_list(shell, cmd, i, start);
 			while (cmd[i] == ' ' && cmd[i + 1] == ' ')
 				i++;
 			start = i;
 		}
 		if (cmd[i] == '$')
 		{
-			tmp = ft_lstnew((char *)ft_substr(cmd, start, i - start));
-			ft_lstadd_back(&(*shell)->string, tmp);
+			add_back_list(shell, cmd, i, start);
 			i = get_variable(cmd, i, tmp_env, shell);
 			start = i;
 		}
 		i++;
 	}
-	tmp = ft_lstnew(ft_substr(cmd, start, i - start));
-	ft_lstadd_back(&(*shell)->string, tmp);
+	add_back_list(shell, cmd, i, start);
 	return (i);
 }
