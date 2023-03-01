@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 19:07:21 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/21 17:13:21 by mfusil           ###   ########.fr       */
+/*   Updated: 2023/02/27 14:12:12 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,38 @@ void	change_variable_in_env(char **tmp_env, char *string)
 	}
 }
 
+int	verif_export(t_var *shell)
+{
+	int	i;
+
+	if (ft_strcmp(shell->string->content, "=") == 0)
+		return (1);
+	if (shell->string->content[0] >= '0' && shell->string->content[0] <= '9')
+		return (1);
+	i = 0;
+	while (shell->string->content[i])
+	{
+		if (shell->string->content[i] == '=' && (shell->string->content[i - 1]
+				== ' ' || shell->string->content[i + 1] == ' '))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	export(t_var *shell, char ***tmp_env)
 {
 	g_exit_statut = 0;
-	if (!ft_strchr(shell->string->content, '='))
-		return (printf("error no sign =\n"));
+	if (verif_export(shell))
+	{
+		g_exit_statut = 1;
+		return (printf("error with export\n"));
+	}
 	if (shell->string->content == NULL)
+	{
+		g_exit_statut = 1;
 		return (printf("no argument with export\n"));
+	}
 	if (shell->string->content)
 	{
 		if (var_in_env(*tmp_env, shell->string->content) == 0)

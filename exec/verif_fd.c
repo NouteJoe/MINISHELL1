@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   verif_fd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/25 16:01:24 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/27 15:22:25 by mfusil           ###   ########.fr       */
+/*   Created: 2023/02/27 14:56:18 by mfusil            #+#    #+#             */
+/*   Updated: 2023/02/27 14:59:11 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	dollar(void)
+int	verif_fd(int fd)
 {
-	printf("%d\n", g_exit_statut);
-	return (0);
-}
-
-int	echo(t_var *shell)
-{
-	if (ft_strcmp(shell->string->content, "$") == 0)
+	if (fd < 0)
 	{
-		dollar();
-		return (0);
+		printf("error outfile\n");
+		return (1);
 	}
-	while (shell->string)
-	{
-		printf("%s", shell->string->content);
-		shell->string = shell->string->next;
-	}
-	if (!shell->flag || !shell->flag->content
-		|| ft_strcmp(shell->flag->content, "-n") != 0)
-		printf("\n");
 	return (0);
 }

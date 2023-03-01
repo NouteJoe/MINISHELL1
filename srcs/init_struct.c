@@ -6,12 +6,22 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:51:04 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/24 10:52:48 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/02/28 11:01:07 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include <stdio.h>
+
+t_file	init_files(t_var **shell)
+{
+	t_file	files;
+
+	files.outfiles = malloc(sizeof(int) * (ft_lstsize((*shell)->redir_output)
+				+ ft_lstsize((*shell)->redir_append)));
+	files.savein = dup(STDIN_FILENO);
+	return (files);
+}
 
 void	init_struct(t_var **shell)
 {

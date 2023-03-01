@@ -6,7 +6,7 @@
 /*   By: mfusil <mfusil@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 18:38:11 by mfusil            #+#    #+#             */
-/*   Updated: 2023/02/25 13:14:51 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/03/01 11:29:38 by mfusil           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,18 @@ typedef struct s_var
 	struct s_var	*next;
 }	t_var;
 
+typedef struct s_file
+{
+	int		infiles;
+	int		*outfiles;
+	int		savein;
+	int		saveout;
+	int		i;
+}	t_file;
+
 //----------------srcs----------------//
 void	init_struct(t_var **shell);
+t_file	init_files(t_var **shell);
 char	**env_copy(char **envp);
 
 //----------------parsing----------------//
@@ -79,6 +89,14 @@ void	handler_sig(int signum);
 int		builtin_no_fork(t_var *shell, char ***tmp_env);
 void	redirection_outfile(t_var **shell, int **files);
 int		redirection_infile(t_var **shell);
+int		verif_fd(int fd);
+void	write_in_outfile(t_var *shell, char *str, int *outfiles, int outfile);
+void	redirout(int *outfiles, t_var *shell);
+int		builtin_fork(t_var *shell, char **tmp_env);
+int		infiles(t_var **tmp2, t_file *files, char ***tmp_env);
+void	heredoc(t_var *tmp2, t_file *files, char ***tmp_env);
+void	outfile(t_var **tmp2, t_file *files, char ***tmp_env);
+int		process(t_var *shell, char **tmp_env, t_file files);
 
 //----------------structvar----------------//
 void	ft_varadd_back(t_var **var, t_var *n);

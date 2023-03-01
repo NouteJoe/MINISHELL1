@@ -26,7 +26,7 @@ int	check_cmd_user(t_var *tmp, char **tmp_env, char *cmd, int i)
 		i = output_file(&tmp, i, cmd);
 	else if (cmd[i] == '$')
 		i = get_variable(cmd, i, tmp_env, &tmp);
-	else if (cmd[i] != ' ' && !tmp->cmd_arg)
+	else if (cmd[i] && cmd[i] != ' ' && !tmp->cmd_arg)
 		i = get_cmd(&tmp, i, cmd);
 	else if (cmd && cmd[i] == '-' && cmd[i - 1] == ' ')
 		i = get_flag_cmd(&tmp, i, cmd);

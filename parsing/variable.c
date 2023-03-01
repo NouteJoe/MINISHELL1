@@ -6,7 +6,7 @@
 /*   By: jmuni-re <jmuni-re@student.42mulhouse.fr>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 10:39:20 by jmuni-re          #+#    #+#             */
-/*   Updated: 2023/02/25 13:03:51 by jmuni-re         ###   ########.fr       */
+/*   Updated: 2023/03/01 13:49:08 by jmuni-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	exit_statut(t_var **shell, int i)
 	return (i);
 }
 
-int	get_variable(char *cmd, int i, char **tmp_env, t_var **shell)
+int	get_variable2(char *cmd, int i, char **tmp_env, t_var **shell)
 {
 	int		j;
 	char	*str;
@@ -39,9 +39,6 @@ int	get_variable(char *cmd, int i, char **tmp_env, t_var **shell)
 	j = 0;
 	str = NULL;
 	size = 0;
-	i++;
-	if (cmd[i] == '?')
-		i = exit_statut(shell, i);
 	size = is_forbidden_char(size, cmd);
 	str = malloc(sizeof(char) * size + 1);
 	while (cmd[i] && cmd[i] != ' ' && cmd[i] != '|' && cmd[i] != '"'
@@ -54,6 +51,16 @@ int	get_variable(char *cmd, int i, char **tmp_env, t_var **shell)
 	str[j] = '=';
 	scan_tmp_env(tmp_env, str, j + 1, shell);
 	free(str);
+	return (i);
+}
+
+int	get_variable(char *cmd, int i, char **tmp_env, t_var **shell)
+{
+	i++;
+	if (cmd[i] == '?')
+		i = exit_statut(shell, i);
+	else
+		i = get_variable2(cmd, i, tmp_env, shell);
 	return (i);
 }
 
